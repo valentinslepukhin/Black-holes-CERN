@@ -1,0 +1,10 @@
+# Local Claude Code state
+.claude/
+
+# Copyrighted primary-source PDFs are not redistributed in this public repo.
+# See sources/README.md for where to obtain them.
+sources/*.pdf
+
+# Python
+__pycache__/
+*.pyc
