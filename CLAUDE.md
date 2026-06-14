@@ -41,6 +41,9 @@ PROJECT_SUMMARY.md  plain-language summary for human collaborators
 4. `analysis/lhc_bh_fate.py`, `analysis/lhc_first_capture.py` → `notes/03`,`04` —
    collider-produced black holes; joint "LHC-traps-one-first" probability.
 5. `notes/05` — diff of our independent re-derivation against the G&M paper.
+6. `analysis/ns_capture_consumption.py` → `notes/06` — neutron-star bound: how
+   often a NS traps a gravity-only BH (~every 16–220 yr, neutrino channel) and
+   how fast it consumes the NS (yr → ~10 Myr); the decisive bound for D ≥ 8.
 
 ## How to run
 
@@ -86,6 +89,9 @@ Key established findings:
   for light BHs) after reading G&M App. F — see correction box in `notes/04`.
 - The D ≥ 8 branch depends on the cosmic UHE neutrino flux: unobserved in 2008,
   IceCube-observed since 2013. A live "this node aged" example.
+- Neutron stars are the decisive object for the gravity-only case (notes/06): a
+  NS traps one every ~16–220 yr (neutrino channel) and is consumed in yr–10 Myr,
+  vs. observed Gyr ages → excludes D = 5–11 including the D ≥ 8 WD gap.
 
 ## Open tasks (don't redo finished layers without reason)
 

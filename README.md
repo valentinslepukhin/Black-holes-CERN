@@ -72,6 +72,19 @@ safety case rests on the cosmic UHE neutrino flux (making BHs inside neutron sta
 — unobserved in 2008, since detected by IceCube: a calculation-node that became an
 observation-node, demonstrating why knowledge bases must be living.
 
+### 6. Neutron-star bound — `analysis/ns_capture_consumption.py`, `notes/06`
+The decisive bound for the gravity-only case at D ≥ 8 (where white dwarfs fail).
+Neutral BHs are made *inside* neutron stars by cosmic UHE neutrinos (immune to
+the magnetic screening that blocks charged cosmic rays): a typical NS traps one
+**every ~16–220 yr** (G&M Table 10), with capture efficiency ~1 (NS column
+2×10²⁰ ≫ stopping column needed, crust penetrated in ≲10 s). Once trapped it
+consumes the NS in **~years (D≤7) to ~10 Myr (D=11)** — our accretion model lands
+exactly on G&M's §8.2.2 numbers (D=11 → ~10 Myr). So a NS would be destroyed
+10²–10⁷× faster than the observed Gyr ages of neutron stars and their X-ray
+binaries → the dangerous case is excluded across all D = 5–11. Residual now
+concentrated on the cosmic-neutrino-flux node (2008 assumption, IceCube-observed
+since 2013).
+
 ## Where the whole safety case bottoms out
 
 ```
