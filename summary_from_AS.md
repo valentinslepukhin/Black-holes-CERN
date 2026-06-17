@@ -1,14 +1,16 @@
 # Summary from AS
 
-Date: 2026-06-14
+Date: 2026-06-17
 
-This file is a detailed working handoff compiled from the AS/Codex thread for
-`valentinslepukhin/Black-holes-CERN`. It records the project frame, GitHub
-state, literature map, physics questions discussed today, and concrete update
-tasks. It intentionally overwrites the earlier short summary.
+This file is a working handoff compiled from the AS/Codex thread for
+`valentinslepukhin/Black-holes-CERN`. It replaces the previous AS summary and
+folds in the later discussion on nonlinear/exotic semiclassical gravity,
+black-hole-like states, heavy-ion angular momentum, magnetically charged black
+holes, slow neutron-star consumption, pp versus neutrino production, and
+heavy-ion magnetic-field production.
 
-This is not a polished competition write-up. It is a working memo for the next
-round of implementation and literature checking.
+This is not meant to be a polished final essay. It is a research and
+implementation memo for the next project round.
 
 ## 1. Project Frame
 
@@ -16,29 +18,30 @@ The repository is an entry for the Future of Life Foundation epistemic case
 study competition, based on the LessWrong "Lab leaks, black holes, and eggs"
 prompt.
 
-The topic is:
+The headline question is:
 
 ```text
 Will the LHC create a dangerous black hole?
 ```
 
-But the judged object is not mainly a physics essay. The judged object is a
-methodology plus an artifact:
+The judged object should not be only a physics essay. It should be a navigable
+epistemic artifact:
 
 - an updateable knowledge base,
 - a claim/dependency graph,
-- explicit assumptions,
+- explicit assumptions and parameter scopes,
 - source attribution,
 - algebraic/order-of-magnitude calculations,
 - correction history,
 - update triggers,
-- and a way for readers to navigate where the argument is observational,
-  calculational, model-dependent, or superseded.
+- and a way for readers to see which parts are observational, calculational,
+  model-dependent, disputed, or superseded.
 
-The LHC black-hole case is useful because the headline conclusion is already
-settled, while the dependency structure is subtle enough to expose weak links.
+The black-hole-safety case is valuable because the conclusion is already
+strong, while the dependency structure is subtle. The artifact should make that
+structure visible.
 
-## 2. Repository State
+## 2. Repository and Git State
 
 Remote:
 
@@ -46,28 +49,36 @@ Remote:
 https://github.com/valentinslepukhin/Black-holes-CERN
 ```
 
-Local workspace used by Codex:
+Local workspace:
 
 ```text
 /Users/sadofyev/Documents/BHs_compete
 ```
 
-GitHub Desktop was installed and used to make GitHub authentication available.
-The terminal push finally worked using GitHub Desktop's bundled Git Credential
-Manager.
+Current branch:
 
-Current file:
+```text
+main
+```
+
+Current AS handoff file:
 
 ```text
 summary_from_AS.md
 ```
 
-Earlier version of this file was created, committed, and pushed. This version is
-the expanded replacement.
+GitHub Desktop is installed and provides the credential helper used for pushes.
+The terminal push command that worked earlier was:
+
+```text
+git -c credential.helper= \
+  -c "credential.helper=!'/Applications/GitHub Desktop.app/Contents/Resources/app/git/libexec/git-core/git-credential-manager'" \
+  push origin main
+```
 
 ## 3. Existing Repository Structure
 
-The repo contains:
+The repo currently contains:
 
 ```text
 analysis/   order-of-magnitude Python calculations, stdlib only
@@ -79,58 +90,77 @@ CLAUDE.md
 summary_from_AS.md
 ```
 
-The five implemented layers are:
+Important files:
 
-1. `analysis/cosmic_ray_flux.py` and `notes/01-cosmic-ray-argument.md`
-   - cosmic-ray vs. LHC collision rates.
+- `analysis/cosmic_ray_flux.py`
+  - cosmic-ray versus LHC collision counts.
 
-2. `analysis/bh_earth_passage.py` and `notes/01`, `notes/02`
-   - whether a cosmic-ray-produced black hole escapes Earth under four
-     interaction hypotheses:
-     A. gravity only,
-     B. gravity plus weak,
-     C. gravity plus strong,
-     D. gravity plus electromagnetic.
+- `analysis/bh_earth_passage.py`
+  - stopping/escape estimates for four interaction hypotheses:
+    gravity only, gravity plus weak, gravity plus strong, and gravity plus EM.
 
-3. `analysis/capture_and_accretion.py` and `notes/02`
-   - capture statistics over 4.5 Gyr and accretion clocks versus number of extra
-     dimensions.
+- `analysis/capture_and_accretion.py`
+  - capture statistics and Earth accretion clocks.
 
-4. `analysis/lhc_bh_fate.py`, `analysis/lhc_first_capture.py`, `notes/03`,
-   `notes/04`
-   - collider-produced black holes and the probability that the LHC traps one
-     before nature does.
+- `analysis/lhc_bh_fate.py`
+  - older LHC capture estimate. It still contains superseded slow-tail logic.
 
-5. `notes/05-comparison-giddings-mangano.md`
-   - direct diff against Giddings-Mangano 2008.
+- `analysis/lhc_first_capture.py`
+  - older "who captures first" estimate. Also superseded by the
+    Giddings-Mangano Appendix F correction.
 
-Important local limitation observed during this thread:
+- `analysis/ns_capture_consumption.py`
+  - neutron-star capture and consumption OOM estimates.
+
+- `notes/01-cosmic-ray-argument.md`
+  - cosmic-ray comparator.
+
+- `notes/02-capture-and-accretion.md`
+  - stopping and accretion.
+
+- `notes/03-lhc-produced-bh.md`
+  - LHC-produced BH fate.
+
+- `notes/04-lhc-first-probability.md`
+  - LHC first-capture probability with correction box.
+
+- `notes/05-comparison-giddings-mangano.md`
+  - direct comparison with Giddings-Mangano.
+
+- `notes/06-neutron-star-bound.md`
+  - neutron-star bound module.
+
+- `notes/research-gaps.md`
+  - best current list of load-bearing unresolved questions.
+
+- `notes/review-of-AS-summary.md`
+  - review notes from the first AS summary.
+
+Current local source limitation:
 
 ```text
-sources/ currently contains only README.md, not the Giddings-Mangano PDF.
+sources/ currently contains only README.md, not the PDFs.
 ```
 
-For future table/page-level work, download the Giddings-Mangano PDF and LSAG PDF
-into `sources/`.
+For page/table-level work, download at least Giddings-Mangano 2008 and LSAG
+2008 into `sources/`.
 
-## 4. Primary Claim Structure
+## 4. Core Safety Claim
 
-Do not write:
+Avoid the compressed slogan:
 
 ```text
 Cosmic rays prove the LHC is safe.
 ```
 
-That is too compressed.
-
-Better:
+Use the more precise form:
 
 ```text
 Earth/Sun cosmic-ray survival closes branches where produced black holes are
-stopped in ordinary matter. The neutral gravity-only stable branch is not closed
-by ordinary Earth cosmic-ray survival, because cosmic-ray-produced black holes
-are ultra-relativistic and pass through ordinary matter. That branch is handled
-by accretion slowness plus white-dwarf and neutron-star survival.
+stopped in ordinary matter. The neutral gravity-only stable branch is not
+closed by ordinary Earth cosmic-ray survival, because cosmic-ray-produced black
+holes are ultra-relativistic and pass through ordinary matter. That branch is
+handled by accretion slowness plus white-dwarf and neutron-star survival.
 ```
 
 Compact dependency:
@@ -140,7 +170,7 @@ fast danger -> astrophysically testable -> excluded
 not astrophysically excluded -> too slow to be dangerous
 ```
 
-The central safety statement:
+The most robust safety statement is:
 
 ```text
 LHC-produced stable black holes are safe not because capture is impossible, but
@@ -149,7 +179,18 @@ while branches not excluded by dense-star survival have Earth accretion times
 far longer than the age of the Solar System.
 ```
 
-## 5. Literature Spine Checked in This Thread
+Important correction:
+
+```text
+The safety case must not rest on LHC capture being improbable.
+```
+
+Giddings-Mangano Appendix F shows that low-velocity accretion drag and the
+rapidity distribution can make capture of light stable LHC black holes much
+larger than the early project estimate. Earlier scripts that print small LHC
+capture probabilities should be marked superseded or rewritten.
+
+## 5. Literature Spine
 
 Primary safety and production sources:
 
@@ -164,8 +205,8 @@ Primary safety and production sources:
   Collisions", arXiv:gr-qc/0201034.
   URL: https://arxiv.org/abs/gr-qc/0201034
 
-- Yoshino and Rychkov, "Improved analysis of black hole formation in high-energy
-  particle collisions", arXiv:hep-th/0503171.
+- Yoshino and Rychkov, "Improved analysis of black hole formation in
+  high-energy particle collisions", arXiv:hep-th/0503171.
   URL: https://arxiv.org/abs/hep-th/0503171
 
 - Yoshino and Nambu, "Black hole formation in the grazing collision of
@@ -200,35 +241,76 @@ Event generators and search modeling:
 - BlackMax manual, arXiv:0902.3577.
   URL: https://arxiv.org/abs/0902.3577
 
-Recent direct searches:
+Recent direct searches checked in this thread:
 
-- CMS 2026, "A search for microscopic black holes, string balls, and sphalerons
-  in proton-proton collisions at sqrt(s)=13 TeV", arXiv:2604.10732.
+- CMS 2026, microscopic black holes, string balls, and sphalerons in 13 TeV pp,
+  arXiv:2604.10732.
   URL: https://arxiv.org/abs/2604.10732
 
-- ATLAS 2026, "Search for quantum black holes in lepton+jet final states using
-  proton-proton collisions at sqrt(s)=13.6 TeV", arXiv:2604.19495.
+- ATLAS 2026, quantum black holes in lepton+jet final states at 13.6 TeV,
+  arXiv:2604.19495.
   URL: https://arxiv.org/abs/2604.19495
 
-Astrophysical update areas checked:
+Astrophysical update areas:
 
-- IceCube diffuse astrophysical neutrino flux, including 2024 and 2025 updates.
+- IceCube diffuse astrophysical neutrino flux, including 2024 updates.
+  URL: https://arxiv.org/abs/2402.18026
+
 - Pierre Auger / Telescope Array UHECR spectrum and composition updates.
-- LIGO/Virgo/KAGRA GWTC-3, GWTC-4, GWTC-5 population updates.
-- Gaia-era white-dwarf catalog and magnetic/age/systematic updates.
+  URLs: https://arxiv.org/abs/2210.05745 and
+  https://arxiv.org/abs/2406.19286
 
-## 6. BH Production Cross Section: Actual Approximation
+- LIGO/Virgo/KAGRA GWTC-3 and GWTC-5 population updates.
+  URLs: https://arxiv.org/abs/2111.03634 and
+  https://arxiv.org/abs/2605.27226
 
-The collider BH cross section is usually modeled as a geometric black-disk
-cross section at parton level:
+Magnetic and exotic branches:
+
+- Lee, Nair, Weinberg, black holes in magnetic monopoles,
+  arXiv:hep-th/9112008.
+  URL: https://arxiv.org/abs/hep-th/9112008
+
+- Gould and Rajantie, monopole Schwinger production in heavy-ion collisions,
+  arXiv:1705.07052.
+  URL: https://arxiv.org/abs/1705.07052
+
+- MoEDAL monopole searches, including heavy-ion/Schwinger-production searches.
+  URLs: https://arxiv.org/abs/1903.08491,
+  https://arxiv.org/abs/2106.11933, https://arxiv.org/abs/2402.15682
+
+- ATLAS highly ionizing particle / monopole searches.
+  URLs: https://arxiv.org/abs/2308.04835 and
+  https://arxiv.org/abs/2408.11035
+
+- Born-Infeld-inspired gravity review.
+  URL: https://arxiv.org/abs/1704.03351
+
+- EiBI phenomenology.
+  URL: https://arxiv.org/abs/1201.2814
+
+- Higher-curvature collider BH corrections.
+  URL: https://arxiv.org/abs/hep-ph/0503163
+
+- Rychkov critique of TeV BH production.
+  URL: https://arxiv.org/abs/hep-ph/0401116
+
+- Asymptotic-safety black holes.
+  URL: https://arxiv.org/abs/1002.0260
+
+- Asymptotic-safety review.
+  URL: https://arxiv.org/abs/2212.09495
+
+- Noncommutative / regular BH collider phenomenology.
+  URLs: https://arxiv.org/abs/1003.1798 and
+  https://arxiv.org/abs/1111.5830
+
+## 6. BH Production Cross Section
+
+The standard collider estimate is a geometric black-disk cross section at
+parton level:
 
 ```text
 hat_sigma_ij->BH(hat_s) ~= F(D) pi R_S^2(M_BH)
-```
-
-with
-
-```text
 M_BH = kappa sqrt(hat_s)
 ```
 
@@ -236,60 +318,54 @@ where:
 
 - `D = 4 + n` is spacetime dimension,
 - `M_D` is the higher-dimensional Planck scale,
-- `M_BH` is the formed black-hole mass,
+- `M_BH` is the trapped black-hole mass,
 - `kappa` is the trapped-energy fraction,
 - `F(D)` is an order-one form factor,
 - `R_S` is the higher-dimensional Schwarzschild radius.
 
-In Giddings-Mangano conventions:
+Giddings-Mangano convention:
 
 ```text
 R(M) = (1/M_D) * (k_D M/M_D)^(1/(D-3))
-```
-
-with
-
-```text
 k_D = 2(2pi)^(D-4) / [(D-2) Omega_(D-2)]
 Omega_m = 2 pi^((m+1)/2) / Gamma((m+1)/2)
 ```
 
-Thus
+Thus:
 
 ```text
 hat_sigma ~ M_BH^(2/(D-3))
 ```
 
-which is a slow power of mass. Most rate sensitivity near the LHC endpoint does
-not come from this slow power; it comes from the parton luminosity.
+The geometric factor is a slow power of mass. Near the LHC endpoint, the main
+rate sensitivity comes from parton luminosities and threshold conventions, not
+from the slow radius power.
 
 Core approximations:
 
 1. Classical gravity is reliable once `M_BH >> M_D`.
-2. The incoming partons are approximated as ultra-relativistic localized sources.
+2. Incoming partons can be approximated as ultra-relativistic localized
+   gravitational sources.
 3. Formation is controlled by a hoop/trapped-surface criterion.
-4. The proton collision factorizes into PDFs times a parton-level geometric
+4. Proton collision rates factorize into PDFs times a parton-level geometric
    cross section.
-5. Threshold is imposed by `M_BH >= M_min = q M_D`, often with `q = 3` or `5`.
-6. Energy not trapped into the hole is represented by `kappa`.
+5. A threshold `M_BH >= M_min = q M_D` is imposed, often with `q = 3` or `5`.
+6. Energy not trapped into the hole is summarized by `kappa`.
 
-Leading correction if the zeroth-order geometric picture is accepted:
+Leading correction if the geometric picture is accepted:
 
 ```text
 trapped-surface / inelasticity / angular-momentum corrections
 ```
 
-Eardley-Giddings supplied the classical apparent-horizon basis. Yoshino-Rychkov
-improved the apparent-horizon slice and found production cross-section prefactor
-increases of about 40-70 percent in higher-dimensional cases, relative to
-earlier estimates. That is an order-one correction.
+Eardley-Giddings supplied the classical trapped-surface basis. Yoshino-Rychkov
+improved the apparent-horizon slice and found order-one changes in the
+production prefactor. Near threshold, even order-one changes in trapped mass can
+turn into order-of-magnitude rate changes because of the PDF cliff.
 
-However, near LHC threshold, an order-one shift in trapped mass can cause an
-order-of-magnitude shift in event rate because of the PDF cliff.
+## 7. PDF Cliff Algebra
 
-## 7. The PDF Cliff: Algebra
-
-The hadronic production rate is
+Hadronic production rate:
 
 ```text
 sigma_pp->BH(S) =
@@ -298,67 +374,55 @@ sigma_pp->BH(S) =
     hat_sigma_ij(tau S^2)
 ```
 
-where
+with:
 
 ```text
 tau_min = M_min^2 / (kappa^2 S^2)
 ```
 
-and
+and:
 
 ```text
 dL_ij/dtau =
-  int_tau^1 dx/x f_i(x,Q) f_j(tau/x,Q).
+  int_tau^1 dx/x f_i(x,Q) f_j(tau/x,Q)
 ```
 
-Near the endpoint, approximate a PDF as
+Near the endpoint:
 
 ```text
 f_i(x,Q) ~= A_i(Q) (1 - x)^b_i
 ```
 
-for `x -> 1`.
-
-Then for `tau -> 1`,
+so for `tau -> 1`:
 
 ```text
-dL_ij/dtau proportional to (1 - tau)^(b_i + b_j + 1).
+dL_ij/dtau proportional to (1 - tau)^(b_i + b_j + 1)
 ```
 
-Define
+Define:
 
 ```text
-p = b_i + b_j + 1.
+p = b_i + b_j + 1
 ```
 
-Ignoring the slow geometric mass dependence for the moment:
+Ignoring slow geometric variation:
 
 ```text
-ln sigma ~= p ln(1 - tau_min) + slowly varying terms.
+ln sigma ~= p ln(1 - tau_min)
 ```
 
-Since
+Since:
 
 ```text
-tau_min = M_min^2 / (kappa^2 S^2),
+tau_min = M_min^2 / (kappa^2 S^2)
 ```
 
-the logarithmic sensitivity to threshold mass is
+the threshold sensitivity is:
 
 ```text
-d ln sigma / d ln M_min ~= - 2 p tau_min / (1 - tau_min).
-```
-
-The sensitivity to collider energy is
-
-```text
-d ln sigma / d ln S ~= + 2 p tau_min / (1 - tau_min).
-```
-
-The sensitivity to trapped fraction is
-
-```text
-d ln sigma / d ln kappa ~= + 2 p tau_min / (1 - tau_min).
+d ln sigma / d ln M_min ~= - 2 p tau_min / (1 - tau_min)
+d ln sigma / d ln S     ~= + 2 p tau_min / (1 - tau_min)
+d ln sigma / d ln kappa ~= + 2 p tau_min / (1 - tau_min)
 ```
 
 Example:
@@ -369,199 +433,111 @@ M_min = 10 TeV
 kappa = 1
 tau_min = (10/13)^2 = 0.592
 2 tau/(1 - tau) = 2.90
+p = 8
+d ln sigma / d ln M_min ~= -23.2
 ```
 
-If `p = 8`, then:
-
-```text
-d ln sigma / d ln M_min ~= -23.2.
-```
-
-A 5 percent increase in effective threshold gives
+A 5 percent threshold increase gives:
 
 ```text
 Delta ln sigma ~= -23.2 * 0.05 = -1.16
-sigma factor ~= exp(-1.16) ~= 0.31.
+sigma factor ~= exp(-1.16) ~= 0.31
 ```
 
-A 10 percent increase gives
+A 10 percent threshold increase gives:
 
 ```text
 Delta ln sigma ~= -2.32
-sigma factor ~= 0.10.
+sigma factor ~= 0.10
 ```
 
-This is the PDF cliff.
-
-It also explains why small increases in beam energy matter near threshold. At
-fixed `M_min`, increasing `S` decreases `tau_min`. The same derivative changes
-sign:
-
-```text
-d ln sigma / d ln S ~= +23.2
-```
-
-so a 4.6 percent energy increase, such as 13.0 to 13.6 TeV, can plausibly give
+An energy increase from 13.0 to 13.6 TeV is 4.6 percent, so at the same point:
 
 ```text
 Delta ln sigma ~= 23.2 * 0.046 ~= 1.07
 sigma factor ~= 2.9
 ```
 
-For even higher threshold, say `M/S` closer to 0.85-0.90, the factor can become
-larger, consistent with ATLAS noting order-of-magnitude effects at the highest
-masses.
-
-Effect of trapped-energy fraction:
+The trapped-energy fraction enters through:
 
 ```text
-tau_min(kappa) = tau_min(kappa=1) / kappa^2.
+tau_min(kappa) = tau_min(kappa=1) / kappa^2
 ```
 
-If `kappa = 0.8`, then
+If `kappa = 0.8`, then:
 
 ```text
-tau_min -> 1.56 tau_min.
+tau_min -> 1.56 tau_min
 ```
 
-At high masses this can move a point from rare to impossible. Therefore:
+At high mass this can move a benchmark from rare to impossible. Therefore:
 
 ```text
 PDF uncertainty + threshold convention + kappa dominate LHC endpoint rates.
 ```
 
-The geometric radius prefactor is much less steep:
+## 8. Hawking Radiation, Directionality, and Medium-Induced Radiation
 
-```text
-hat_sigma ~ M^(2/(D-3)).
-```
+If ordinary Hawking radiation exists, the dangerous stable-BH branch mostly
+disappears because the microscopic BH evaporates.
 
-For `D = 8`, this is `M^0.4`, negligible compared with the high-x PDF falloff.
+For motion through the lab:
 
-## 8. Hawking Radiation While the BH Is Flying
-
-Question:
-
-```text
-If Hawking radiation exists, does it stop a flying microscopic BH faster? Does
-directional beaming matter? Does it change neutron-star lifetime estimates?
-```
-
-Answer:
-
-If ordinary Hawking radiation exists, the dangerous stable-BH branch largely
-disappears, because the object evaporates. That is why Giddings-Mangano analyze
-the extreme pessimistic branch where Hawking decay is absent or ineffective.
-
-For the kinematics:
-
-- In the BH rest frame, emission is approximately isotropic for a neutral,
-  non-rotating hole, up to greybody and spin effects.
-- In the lab frame, the radiation is forward-beamed by Lorentz boost.
+- In the BH rest frame, emission from a neutral non-rotating hole is
+  approximately isotropic, up to greybody and spin corrections.
+- In the lab frame, radiation is Lorentz-beamed forward.
 - But if rest-frame emission is isotropic, the 4-force is parallel to the
   4-momentum:
 
 ```text
-dP^mu/dtau = - (Gamma_H/M) P^mu.
+dP^mu/dtau = - (Gamma_H/M) P^mu
 ```
 
-This reduces rest mass and lab momentum in the same proportion. It does not
-act like ordinary friction that drives the velocity to zero.
+So mass and lab momentum fall proportionally. This is not ordinary friction
+that strongly drives the speed to zero.
 
-Thus:
-
-```text
-Hawking emission lowers M and total energy.
-It does not, by itself, strongly reduce v for isotropic rest-frame emission.
-```
-
-If there is both accretion and Hawking loss:
+With both accretion and Hawking loss:
 
 ```text
-dM/dt = Mdot_acc - Mdot_H.
+dM/dt = Mdot_acc - Mdot_H
 ```
 
 If `Mdot_H > Mdot_acc`, the BH evaporates. If `Mdot_acc > Mdot_H`, it grows.
 
-For neutron-star lifetime estimates:
-
-- A captured BH with normal Hawking radiation may evaporate or fail to grow.
-- Then neutron-star survival is not needed to exclude catastrophe.
-- Including Hawking radiation weakens the need for the dense-star exclusion
-  argument, but strengthens safety.
-
-Claim-graph implication:
+For neutron-star estimates:
 
 ```text
-Hawking-radiating branch -> direct evaporation / no long-lived hazard.
-Stable-or-remnant branch -> requires Giddings-Mangano accretion and dense-star
-survival analysis.
+Hawking-radiating branch -> evaporation / no long-lived hazard
+stable-or-remnant branch -> dense-star stopping and accretion analysis
 ```
 
-## 9. Medium-Induced Radiation
+Medium-induced radiation:
 
-Question:
+- For a neutral gravity-only remnant, the QCD jet-quenching analogy is not the
+  leading model.
+- A QCD jet radiates strongly because it carries color through a colored
+  medium.
+- The dangerous remnant branch is neutralized and interacts mainly
+  gravitationally.
+
+For weak scattering with deflection angle `theta`:
 
 ```text
-Could medium-induced radiation, analogous to jet quenching, cause important
-additional BH energy loss?
+Delta E_elastic ~ (1/2) m v^2 theta^2
 ```
 
-For the dangerous neutral gravity-only branch, the QCD jet analogy is not the
-right leading model. A QCD jet radiates because it carries color and repeatedly
-scatters through strong interactions in a colored medium. The dangerous branch
-is specifically a neutralized BH interacting only gravitationally.
+Radiative gravitational loss from acceleration is a higher-order correction
+unless the scattering is already strong. If elastic gravitational stopping is
+tiny, medium-induced gravitational radiation is tinier. If scattering is strong,
+ordinary stopping/capture is already efficient.
 
-For weak gravitational scattering with deflection angle `theta`, the elastic
-energy transfer scales like
+Charged or colored remnants are different. EM/QCD radiation can be relevant
+there, but those are not the neutral gravity-only branch.
 
-```text
-Delta E_elastic ~ (1/2) m v^2 theta^2.
-```
+## 9. pp Production Versus Neutrino-Nucleon Production
 
-Radiative loss from the acceleration is an additional higher-order correction.
-Parametrically:
-
-```text
-Delta E_radiative <= correction to Delta E_elastic
-```
-
-unless the scattering is already strong.
-
-So:
-
-- If elastic gravitational stopping is tiny, medium-induced gravitational
-  radiation is tinier.
-- If scattering is strong enough that radiation is large, ordinary capture and
-  accretion drag are already efficient.
-- If the BH remains charged or colored, medium-induced EM/QCD radiation could be
-  substantial, but that is not the neutral gravity-only dangerous branch.
-
-Useful claim-graph node:
-
-```text
-Medium-induced radiation is probably a subleading correction to stopping for
-neutral gravity-only remnants, but can be relevant in charged/colored branches.
-```
-
-Next calculation target:
-
-```text
-Add an OOM bound comparing radiative gravitational loss per scattering with the
-elastic gravitational energy transfer already used in stopping estimates.
-```
-
-## 10. pp BH Production Versus Neutrino-Nucleon/Nucleus BH Production
-
-Question:
-
-```text
-Does BH formation from pp differ substantially from BH formation from
-neutrino+nucleon or neutrino+nucleus?
-```
-
-Yes. The local parton-level geometric cross section may be the same function of
-`hat_s`, but the convolution and kinematics differ.
+The local parton-level cross section may be the same function of `hat_s`, but
+the convolution is different.
 
 For pp:
 
@@ -569,10 +545,8 @@ For pp:
 sigma_pp =
   sum_ij int dx1 dx2
     f_i(x1,Q) f_j(x2,Q)
-    hat_sigma(x1 x2 S^2).
+    hat_sigma(x1 x2 S^2)
 ```
-
-Two PDFs enter. Near high mass, both incoming partons may require large `x`.
 
 For neutrino-nucleon fixed-target production:
 
@@ -580,241 +554,638 @@ For neutrino-nucleon fixed-target production:
 sigma_nuN =
   sum_i int_(x_min)^1 dx
     f_i(x,Q)
-    hat_sigma(2 x m_N E_nu).
+    hat_sigma(2 x m_N E_nu)
 ```
 
-Only one nucleon PDF enters. Threshold:
+with:
 
 ```text
-x_min = M_min^2 / (2 m_N E_nu kappa^2).
+x_min = M_min^2 / (2 m_N E_nu kappa^2)
 ```
 
-For a nuclear target:
+Differences:
+
+1. pp has two PDFs; neutrino-nucleon has one nucleon PDF.
+2. pp and nu-N can probe different initial-state assumptions if matter fields
+   are localized differently on a brane or in flavor space.
+3. Neutrino flavor is not the leading issue for gravity-mediated production;
+   UHE flux normalization is more important.
+4. Neutrino-produced BHs inside dense stars are born inside large column
+   density, making capture more plausible than for Earth atmosphere events.
+
+Important fallback:
 
 ```text
-sigma_nuA ~= sum_N int d geometry * nuclear PDFs * sigma_nuN
+Even if nu-N production is suppressed or absent, cosmic p-N and nucleus-N
+collisions still test pp-like partonic production.
 ```
 
-with nuclear modifications and shadowing at relevant `x,Q`, but the energy does
-not coherently add over the whole nucleus into one microscopic BH.
-
-Key differences:
-
-1. pp has two parton-luminosity penalties; neutrino-nucleon has one.
-2. Neutrino production needs enormous lab-frame `E_nu`.
-3. The produced BH in a cosmic fixed-target event is highly boosted in the star
-   frame.
-4. In ordinary Earth matter, a neutral boosted BH passes through.
-5. In a neutron star, the production point is inside enormous density/column, so
-   capture can be much more plausible.
-6. Neutrino flavor matters much less than the total high-energy flux, because
-   gravity is flavor-universal at the hard process level.
-
-Therefore:
+For a cosmic proton hitting a stationary proton:
 
 ```text
-Do not reuse pp rates for neutrino-star production.
-Use the same hat_sigma, but a different luminosity integral, flux integral, and
-capture/stopping model.
+s ~= 2 m_p E_CR
+sqrt(s) ~= sqrt(2 m_p E_CR)
 ```
 
-For cosmic-ray nuclei:
+The LHC at `sqrt(s)=14 TeV` corresponds to:
 
 ```text
-E_CR,min(A) ~= A S^2 / (2 m_p)
+E_CR ~= (14 TeV)^2 / (2 m_p) ~= 1e17 eV
 ```
 
-because the relevant energy is per nucleon. This is why proton versus iron
-composition matters for cosmic-ray comparators.
-
-## 11. Beam/Ray "Flavor" and Composition
-
-For LHC pp:
-
-- Gravity is approximately flavor-blind at the parton-level BH formation step.
-- Quark/gluon identity matters through PDFs and through the initial conserved
-  charges/color/angular momentum that must be shed.
-- High-mass production probes high `x`; quark channels become more important
-  relative to gluons than at low `x`.
-
-For cosmic rays:
-
-- Proton versus iron matters because the per-nucleon energy differs.
-- Pure-proton assumptions maximize the high-energy nucleon flux.
-- Heavy composition weakens ordinary Earth cosmic-ray comparator margins.
-- White dwarfs and neutron stars are the relevant dense-body branches.
-
-For neutrinos:
-
-- Flavor is not the leading issue for BH production.
-- The key issue is the UHE/cosmogenic flux normalization and spectrum.
-- IceCube has observed TeV-PeV astrophysical neutrinos, partly upgrading the
-  old neutrino-flux node, but it does not automatically settle every EeV or
-  cosmogenic flux assumption used in 2008.
-
-## 12. Direct LHC Searches and Decay Channels
-
-Modern ATLAS/CMS searches do not cover "all possible black holes". They cover
-specific prompt visible benchmark signatures.
-
-CMS 2026:
-
-- searches for microscopic black holes, string balls, and sphalerons in 13 TeV
-  pp data,
-- uses high-multiplicity energetic final states,
-- sets model-independent limits on multi-object final states,
-- interprets model-dependent limits for ADD semiclassical black holes and string
-  balls,
-- excludes semiclassical BH masses below about 8.4-11.4 TeV in the benchmark
-  models.
-
-ATLAS 2026:
-
-- searches for quantum black holes in high-mass lepton+jet final states at
-  13.6 TeV,
-- uses 2022-2024 Run 3 data,
-- sets limits on cross section times branching ratio,
-- reaches mass scales around 9.4 TeV in benchmark models,
-- explicitly notes that the 13.0 to 13.6 TeV energy increase can raise the
-  highest-mass cross section by up to an order of magnitude.
-
-The event-count equation is:
+Observed UHE cosmic rays reach `~10^20 eV`, giving:
 
 ```text
-N_seen = L_int * sigma_BH * BR_visible * A * epsilon.
+sqrt(s) ~= 430 TeV
+```
+
+For an iron nucleus with total energy `10^20 eV`, the per-nucleon energy is
+`~1.8e18 eV`, giving nucleon-nucleon:
+
+```text
+sqrt(s_NN) ~= 58 TeV
+```
+
+So if `pp` works but `nu-N` does not, the cosmic-ray argument is weakened in
+the neutron-star neutrino channel, but it is not gone. The project should keep
+two separate branches:
+
+```text
+nu-N dense-star production branch
+p-N / nucleus-N cosmic-ray pp-like branch
+```
+
+## 10. Direct Searches and Decay Channels
+
+Modern ATLAS/CMS searches constrain specific prompt visible benchmarks. They do
+not cover every possible BH-like object.
+
+Event-count equation:
+
+```text
+N_seen = L_int * sigma_BH * BR_visible * A * epsilon
 ```
 
 where:
 
 - `L_int` is integrated luminosity,
 - `sigma_BH` is production cross section,
-- `BR_visible` is branching ratio into the searched visible final state,
+- `BR_visible` is branching ratio into the searched final state,
 - `A` is detector acceptance,
 - `epsilon` is reconstruction/selection efficiency.
 
-If the BH decays mostly invisibly:
+If:
 
 ```text
 BR_visible << 1
 ```
 
-then prompt visible searches weaken directly.
+then prompt visible searches weaken.
 
-Searches do not fully cover:
+Search gaps include:
 
 - mostly invisible decays to neutrinos, gravitons, or hidden sectors,
 - stable neutral remnants,
 - long-lived decays outside the detector,
 - low-visible-energy decays,
 - unusual displaced signatures,
-- stable charged remnants unless a dedicated heavy-stable-charged-particle
-  search is applied,
+- stable charged remnants unless heavy-stable-particle/high-ionization searches
+  are applied,
 - model variants with suppressed brane emission.
 
-In standard semiclassical ADD Hawking models, visible SM emission is expected to
-dominate because many SM degrees of freedom live on the brane. But that is a
-model assumption, not a universal theorem for every exotic remnant branch.
+For ordinary semiclassical ADD Hawking evaporation, visible SM emission is
+expected to dominate because many SM degrees of freedom live on the brane. That
+is a model assumption, not a theorem covering every exotic branch.
 
 Claim-graph wording:
 
 ```text
-Modern direct searches strongly constrain prompt visible semiclassical/quantum
-BH benchmark branches. They do not replace the stable/invisible dangerous-
-remnant astrophysical safety argument.
+Modern direct searches strongly constrain prompt visible benchmark branches.
+They do not replace the stable/invisible-remnant astrophysical safety argument.
 ```
 
-## 13. Other Mechanisms That Change the LHC BH Rate
+## 11. Dense-Star Bounds and Slow Consumption
 
-Rate-changing inputs:
-
-1. `M_D` convention and numerical definition.
-2. `M_min/M_D` threshold choice.
-3. Trapped-energy fraction `kappa`.
-4. Impact-parameter cutoff and form factor `F(D)`.
-5. Angular momentum of produced BH.
-6. Brane tension or brane thickness.
-7. Split fermions or nontrivial localization in extra dimensions.
-8. Warped geometry versus flat ADD geometry.
-9. Bulk graviton channels.
-10. String-ball phase below true semiclassical BH threshold.
-11. Quantum-BH phase near threshold.
-12. Possible Voloshin-type exponential suppression.
-13. PDF uncertainties at high `x`.
-14. Beam energy.
-15. Integrated luminosity.
-
-Things unlikely to help:
-
-- Pileup does not coherently combine many pp collisions into one microscopic BH.
-- Total heavy-ion energy does not coherently form one microscopic BH in the
-  standard partonic channel; local `sqrt(hat_s)` matters.
-
-Beam energy is especially important near threshold because of the PDF cliff:
+The neutron-star bound is not:
 
 ```text
-d ln sigma / d ln S ~= 2 p tau/(1 - tau).
+No black-hole seed can exist inside a neutron star.
 ```
 
-Luminosity scales event count linearly:
+It is:
 
 ```text
-N_BH = L_int sigma_BH.
+N_captured * 1[t_consume < t_NS_age] should not be large.
 ```
 
-But luminosity does not change the per-collision physics.
+If a captured seed consumes the star only on a time longer than observed
+neutron-star ages, the bound weakens. But then the same model is normally safe
+for Earth, because:
 
-## 14. Neutron Stars, White Dwarfs, and GW Updates
+```text
+t_consume = int dM / dotM(M)
+dotM ~ rho * v * sigma_acc(M)
+```
 
-Giddings-Mangano use dense astrophysical objects as natural detectors:
+and Earth has vastly lower density and pressure than a neutron star.
 
-- white dwarfs for some lower-D branches,
-- neutron stars for higher-D branches, especially with neutrino production.
+The "collapse takes infinite time to a distant Schwarzschild observer" point is
+mostly a coordinate issue. The exterior gravitational mass and astrophysical
+appearance can change on finite exterior timescales. If an exotic model makes
+the whole consumption process only asymptotic and unobservable over stellar
+ages, then it is also not a practical LHC danger.
 
-Modern gravitational-wave observations update:
+Possible loophole class:
 
-- neutron-star radius constraints,
-- maximum mass / equation-of-state constraints,
+```text
+NS accretion is suppressed by exotic high-density physics, but Earth accretion
+is not suppressed.
+```
+
+That is logically possible but highly non-generic. It should be a claim-graph
+node requiring an explicit model, not a default assumption.
+
+## 12. Astrophysical Updates from GW, IceCube, and UHECR
+
+GW observations update:
+
+- neutron-star radii and dense-matter EOS,
+- maximum mass constraints,
 - binary neutron-star and neutron-star-black-hole merger rates,
 - compact-object population rates.
 
-But they do not obviously undermine the old "old neutron stars exist" survival
-argument.
+They do not obviously undermine the old "old neutron stars exist" survival
+argument. The expected impact is mostly factor-of-few parameter changes, not
+multi-decade changes.
 
-Relevant update points from the literature scan:
-
-- GW170817 improved constraints on neutron-star radii and dense-matter EOS.
-- GWTC-3 inferred broad BNS rates around 10-1700 Gpc^-3 yr^-1.
-- Later analyses push BNS rates lower; one 2026 GWTC-4-based paper quotes
-  roughly 28-300 Gpc^-3 yr^-1.
-- GWTC-5.0 in May 2026 reported no new neutron-star sources and mainly updated
-  black-hole population properties.
-
-Impact on the safety argument:
+IceCube wording should be precise:
 
 ```text
-Mostly factor-of-few parameter updates, not multi-decade changes.
+IceCube observed TeV-PeV astrophysical neutrinos and improved the neutrino-flux
+picture, but it does not automatically settle the EeV cosmogenic flux node that
+matters for some neutron-star BH-production bounds.
 ```
 
-The branch should still be marked update-sensitive because:
+UHECR wording:
 
-- neutron-star EOS affects radius/compactness/density profiles,
-- old neutron-star population assumptions matter,
-- magnetic-field and binary-companion environments matter,
-- UHE/cosmogenic neutrino flux remains a load-bearing input for the D >= 8
-  branch.
+```text
+Cosmic rays above the LHC fixed-target equivalent energy exist. Composition
+matters because for nuclei the relevant nucleon-nucleon energy is set by
+energy per nucleon, not total nuclear energy.
+```
 
-## 15. Future Machines
+## 13. Nonlinear and Exotic Semiclassical Gravity
+
+The project should not treat the ADD geometric model as the only possible
+semiclassical branch. A useful model-agnostic parameterization is:
+
+```text
+R_h(M; theta)
+M_crit(theta)
+kappa(theta)
+b_max(M; theta)
+T_H(M; theta)
+sigma_acc(M,v,rho; theta)
+species_overlap(theta)
+```
+
+Production then becomes:
+
+```text
+hat_sigma ~= pi b_max^2 * Theta(kappa sqrt(hat_s) - M_crit)
+```
+
+The PDF cliff means small shifts in `M_crit` or `kappa` can dominate the LHC
+event rate.
+
+Important classes:
+
+1. Lovelock / Gauss-Bonnet / higher-curvature gravity.
+
+   Rough mass-radius structure:
+
+   ```text
+   M ~ r_h^(D-3) + alpha_2 r_h^(D-5) + alpha_3 r_h^(D-7) + ...
+   ```
+
+   These terms can change radius, threshold, spin bounds, temperature, and
+   remnants.
+
+2. Born-Infeld and EiBI-like gravity.
+
+   In common Palatini EiBI versions, vacuum can reduce to GR, while dense
+   matter and charged/regular solutions change more. That means these theories
+   may alter neutron-star accretion assumptions more than the neutral exterior
+   horizon solution. If they suppress NS accretion, they often suppress the
+   dangerous branch rather than strengthen it, unless Earth accretion remains
+   fast for model-specific reasons.
+
+3. Asymptotic safety / running Newton constant / nonlocal gravity.
+
+   Often suppresses near-threshold production or gives remnants. The safety
+   question becomes whether the remnant is inert, charged, hidden, or still
+   accreting.
+
+4. Noncommutative / regular black holes.
+
+   Typically introduce a minimum mass, a finite-size core, modified Hawking
+   temperature, and possible cold remnants. These weaken prompt visible LHC
+   signatures and move load onto stable-remnant bounds.
+
+5. GUP / minimal-length models.
+
+   Similar effect: higher threshold, modified evaporation, possible remnants.
+
+6. Brane/bulk localization and split fermions.
+
+   This is one of the more dangerous argument-structure branches because it can
+   make pp and nu-N production differ. The fallback is the pp-like cosmic-ray
+   channel from protons/nuclei.
+
+Suggested claim nodes:
+
+```text
+MODEL-LOVELOCK-HIGHER-CURVATURE
+MODEL-BORN-INFELD-DENSE-MATTER-COUPLING
+MODEL-ASYMPTOTIC-SAFETY-RUNNING-G
+MODEL-NONCOMMUTATIVE-REGULAR-BH
+MODEL-MINIMAL-LENGTH-GUP
+MODEL-BRANE-SPECIES-SEPARATION
+```
+
+## 14. Other BH-Like States
+
+Not every horizon-like or compact object is produced like a spherical
+Schwarzschild-Tangherlini BH.
+
+Black rings / black tori:
+
+- Higher-dimensional black rings exist, with non-spherical horizon topology.
+- Ordinary two-parton collisions are localized and naturally produce a
+  spherical/high-spin Myers-Perry-like trapped surface or no BH.
+- Rings need extended/ring-like/multi-source initial data and are not obviously
+  easier to make in pp.
+- If a stable ring-like object is formed, it should be treated as a remnant
+  branch with modified `R_eff`, `b_max`, and accretion law.
+
+String balls / p-branes:
+
+- More relevant than literal black rings for collider phenomenology.
+- Can alter thresholds, visible signatures, multiplicities, and remnant
+  behavior.
+
+ER bridges / wormholes:
+
+- A nontraversable ER bridge is an interior description of an entangled or
+  extended BH state, not a separate ordinary final-state particle.
+- Traversable wormholes need exotic negative energy or boundary conditions and
+  are not generic two-parton products.
+
+White holes:
+
+- White-hole formation is the time reverse of collapse and requires a
+  fine-tuned low-entropy final-state condition.
+- A BH-to-white-hole bounce would be a decay/ejection endpoint, not an
+  accretion hazard.
+
+Horizonless geons / fuzzballs / topological stars:
+
+- If no absorbing horizon exists, they are usually less dangerous.
+- If they behave as absorbing horizon-like remnants, astrophysical bounds
+  re-enter with modified parameters.
+
+Suggested claim nodes:
+
+```text
+MODEL-BLACK-RING-HORIZON-TOPOLOGY
+MODEL-STRING-BALL-PBRANE
+MODEL-HORIZONLESS-FUZZBALL-GEON
+MODEL-TRAVERSABLE-WORMHOLE-ER-BRIDGE
+MODEL-WHITE-HOLE-TIME-REVERSE
+MODEL-OVERSPINNING-NAKED-SINGULARITY
+```
+
+## 15. Heavy-Ion Angular Momentum
+
+Heavy-ion collision angular momentum does not directly constrain the rotating
+microscopic BH regime.
+
+HIC global angular momentum:
+
+```text
+J_HIC = global orbital angular momentum of extended QCD matter and spectators
+```
+
+Microscopic BH spin in a parton collision:
+
+```text
+J_BH ~ b sqrt(hat_s) / 2
+b <= b_max ~ O(R_h)
+J_BH / (M R_h) ~ O(1)
+```
+
+The total HIC angular momentum cannot coherently feed one microscopic BH in the
+standard partonic channel. It is distributed across spectators and the QCD
+fluid. Large global angular momentum generally means less compact initial data,
+not easier microscopic collapse.
+
+HIC data on vorticity and global hyperon polarization are useful mainly as a
+guardrail:
+
+```text
+Do not overcount total nuclear energy or total nuclear angular momentum as
+available for one microscopic horizon.
+```
+
+Suggested node:
+
+```text
+MODEL-HIC-GLOBAL-ANGULAR-MOMENTUM:
+  HIC global OAM does not coherently enhance microscopic BH spin or black-ring
+  production in the standard partonic channel.
+```
+
+## 16. Magnetic Fields, Magnetic Charge, and Monopole-Stabilized BHs
+
+Separate three cases:
+
+1. External magnetic fields around a neutral BH.
+
+   A neutral BH can sit in an externally supplied magnetic field, for example
+   from an accretion disk or plasma. This is not intrinsic hair and does not
+   stabilize a microscopic BH by itself.
+
+2. Kerr-Newman magnetic dipole from electric charge and spin.
+
+   A rotating charged BH has a magnetic dipole moment. Ordinary electric charge
+   is rapidly neutralized in plasma, so this is not a plausible long-lived
+   magnetar replacement without extra structure.
+
+3. Conserved magnetic charge.
+
+   If the theory contains magnetic monopoles, a Reissner-Nordstrom-like BH can
+   carry magnetic charge `P`.
+
+For electric and magnetic charge:
+
+```text
+r_pm = M +/- sqrt(M^2 - Q^2 - P^2)
+T_H = (r_+ - r_-) / (4 pi r_+^2)
+```
+
+Near extremality:
+
+```text
+M^2 -> Q^2 + P^2
+T_H -> 0
+```
+
+If the lightest monopole has mass:
+
+```text
+m_mon >> T_H
+```
+
+then magnetic-charge loss through Hawking emission is Boltzmann suppressed:
+
+```text
+Gamma_mon ~ exp(-m_mon / T_H)
+```
+
+Schwinger-like magnetic discharge can also be suppressed for heavy monopoles.
+This creates a plausible stable or long-lived remnant branch.
+
+But ordinary magnetic charge is not stealthy:
+
+- it is highly ionizing,
+- it stops strongly in matter,
+- it is directly targeted by MoEDAL and ATLAS high-ionization searches,
+- it is not the neutral gravity-only dangerous branch.
+
+Hidden-sector magnetic charge is stealthier, but then it does not generate
+ordinary magnetar-like fields unless there is additional kinetic mixing or a
+coupling to visible electromagnetism.
+
+Suggested nodes:
+
+```text
+MODEL-MAGNETICALLY-CHARGED-BH
+MODEL-MONOPOLE-CORE-BH
+MODEL-HIDDEN-MAGNETIC-CHARGE-REMNANT
+SEARCH-MOEDAL-ATLAS-HIGH-IONIZATION
+```
+
+## 17. Could Monopole-Stabilized BHs Be Collider-Only?
+
+A generic single magnetically charged BH cannot be made from ordinary pp
+initial states unless magnetic charge is balanced elsewhere. Charge conservation
+requires something like:
+
+```text
+pp -> BH(+g) + BH(-g) + X
+```
+
+or:
+
+```text
+pp -> BH(+g) + monopole(-g) + X
+```
+
+This raises the threshold and worsens the PDF cliff.
+
+Luminosity alone usually does not make the LHC beat cosmic rays for a pp-like
+process. A rough count:
+
+```text
+N_LHC = L_LHC * sigma_X * A * epsilon
+```
+
+Run-2-scale integrated luminosity:
+
+```text
+L_LHC ~ 150 fb^-1
+one event -> sigma_X ~ 1/L ~ 7 ab
+```
 
 HL-LHC:
 
-- changes luminosity/statistics,
+```text
+L ~ 3000 fb^-1 = 3 ab^-1
+one event -> sigma_X ~ 0.3 ab
+```
+
+For ordinary cosmic pp-like production, Earth/Sun/stellar exposure is enormous.
+So "LHC luminosity beats cosmic rays" is not the default. It requires a special
+production condition, such as:
+
+```text
+requires coherent heavy-ion magnetic field
+requires hidden-sector initial state present at the LHC but not in cosmic rays
+requires low boost / special beam geometry
+requires pp but not nu-N, with charged cosmic rays excluded from the relevant
+compact-star environment
+requires strong visible-sector B field for dual Schwinger production
+```
+
+Direct searches can miss rare or invisible events because:
+
+```text
+N_seen = L * sigma_X * A * epsilon * BR_visible
+```
+
+But ordinary visible magnetic charge has large ionization and trapping
+signatures, so the relevant search class is MoEDAL/ATLAS high-ionization and
+monopole trapping, not only prompt BH decay.
+
+Hidden magnetic charge can evade those searches, but then the heavy-ion
+visible-B enhancement is also lost unless the hidden magnetic sector couples to
+ordinary EM.
+
+## 18. Could Magnetized BHs Replace Neutron Stars?
+
+This is a useful loophole to state explicitly, but it is weak for ordinary
+semiclassical BHs.
+
+A neutron star is not just "compact mass plus magnetic field." Observations
+involve matter outside a horizon:
+
+- pulsar timing and spin-down,
+- glitches and crust/superfluid behavior,
+- thermonuclear Type-I X-ray bursts,
+- thermal surface emission and radius inference,
+- tidal deformability in binary neutron-star mergers,
+- kilonova ejecta from neutron-rich matter.
+
+A BH can have external magnetic fields supplied by plasma, but it cannot
+generically retain an arbitrary intrinsic magnetic dipole like a material star.
+
+The seed-charge algebra is especially damaging to the simple replacement idea.
+If a TeV-scale magnetically charged seed consumes a neutron star, then in
+geometric units:
+
+```text
+P_seed <= M_seed
+```
+
+After eating the star:
+
+```text
+P_final / M_final <= M_seed / M_NS
+```
+
+For:
+
+```text
+M_seed ~ 10^4 GeV
+M_NS ~ 10^57 GeV
+```
+
+one gets:
+
+```text
+P_final / M_final <= 10^-53
+```
+
+So the final stellar-mass BH is essentially uncharged relative to its mass.
+It cannot be a magnetar-strength object unless it acquires enormous additional
+magnetic charge or stores external flux by a separate mechanism.
+
+Therefore:
+
+```text
+Observed neutron stars are all magnetized BHs
+```
+
+is not a small loophole in the safety argument. It is a replacement of large
+parts of compact-star astrophysics and must reproduce surfaces, crust physics,
+ejecta, tidal response, pulsar phenomenology, and magnetospheres.
+
+Slower-consumption variant:
+
+```text
+Observed NSs are in a long-lived partial-consumption phase.
+```
+
+This weakens the dense-star bound only if `t_consume > t_NS_age`. But then the
+Earth danger is normally also weakened because Earth accretion is vastly slower.
+It becomes dangerous only in a special model where dense nuclear matter slows
+growth while ordinary matter does not.
+
+Suggested nodes:
+
+```text
+MODEL-NS-AS-MAGNETIZED-BH
+MODEL-SLOW-NS-CONSUMPTION
+CALC-SEED-MAGNETIC-CHARGE-DILUTION
+OBS-NS-SURFACE-AND-EJECTA-PHENOMENA
+```
+
+## 19. Heavy-Ion Magnetic-Field Production
+
+This is the most interesting magnetic loophole raised late in the thread.
+
+Relativistic heavy-ion collisions create enormous transient electromagnetic
+fields. Magnetic monopoles can be produced through a dual Schwinger-like
+mechanism:
+
+```text
+Gamma ~ exp[- pi m^2 / (g B)]
+```
+
+For a magnetically charged BH-like object, schematically:
+
+```text
+Pb Pb -> BH(+g) + BH(-g) + X
+```
+
+or:
+
+```text
+Pb Pb -> BH(+g) + monopole(-g) + X
+```
+
+This can evade the ordinary pp cosmic-ray equivalence if production is driven
+by coherent `B`, not by parton luminosity. It is therefore a separate branch,
+not just another pp cross-section correction.
+
+However, it pays three prices:
+
+1. Magnetic charge conservation requires a pair or compensating magnetic-sector
+   object.
+2. The Schwinger exponent is severe for TeV-scale masses unless `gB` is huge or
+   the model supplies an enhancement.
+3. Ordinary magnetic charge is directly constrained by high-ionization and
+   monopole searches.
+
+Important distinction:
+
+```text
+ordinary magnetic charge -> HIC B fields can help, but searches are strong
+hidden magnetic charge   -> searches weaker, but ordinary HIC B fields may not
+                            couple enough to produce it
+```
+
+Suggested node:
+
+```text
+MODEL-HIC-B-ENHANCED-MAGNETIC-BH-PRODUCTION:
+  coherent heavy-ion electromagnetic fields create a production mode not
+  identical to pp or nu-N geometric BH production. Needs explicit coupling,
+  mass, charge, Schwinger exponent, and search-limit calculation.
+```
+
+## 20. Future Machines
+
+HL-LHC:
+
+- changes luminosity and statistics,
 - not the fundamental pp energy frontier,
-- planned integrated luminosity around 3000 fb^-1,
+- planned integrated luminosity around `3000 fb^-1`,
 - does not qualitatively change the 14 TeV safety structure.
 
 FCC-hh:
 
-- changes energy frontier, roughly 85-100 TeV pp class,
+- changes the energy frontier, roughly 85-100 TeV pp class,
 - must be a separate claim-graph branch.
 
 Fixed-target cosmic-ray comparator:
@@ -830,75 +1201,62 @@ S = 14 TeV  -> E_CR ~ 1e17 eV
 S = 100 TeV -> E_CR ~ 5e18 eV
 ```
 
-If the integral flux scales like an `E^-3` differential spectrum:
+If the integral flux scales roughly as:
 
 ```text
-Phi(>E_min) ~ E_min^-2 ~ S^-4.
+Phi(>E_min) ~ E_min^-2 ~ S^-4
 ```
 
-Going from 14 TeV to 100 TeV reduces the simple comparator flux by about:
+going from 14 TeV to 100 TeV reduces the simple comparator flux by:
 
 ```text
-(100/14)^4 ~ 2600.
+(100/14)^4 ~ 2600
 ```
 
-Therefore the old LHC numerical margins should not be blindly copied to FCC.
-The dependency logic may transfer, but the numbers must be recalculated.
+Therefore LHC numerical margins should not be copied blindly to FCC. The logic
+may transfer, but the numbers must be recalculated.
 
-Heavy ions:
+## 21. Current Implementation Problems
 
-- Standard microscopic BH production is local/partonic.
-- Relevant energy is parton-parton `sqrt(hat_s)`, not total `A sqrt(s_NN)`.
-- A coherent many-body gravitational-collapse mechanism would be a separate
-  model assumption.
+These are the main issues discovered after pulling the repo and comparing it
+with the literature structure:
 
-## 16. Corrections and Guardrails
+1. Superseded LHC capture scripts still print old small probabilities.
 
-Preserve these expert-safe wordings:
+   Files:
 
-```text
-conditional on TeV-gravity/stable-remnant assumptions
-order-of-magnitude regression
-load-bearing node
-update-sensitive input
-branch of the dependency graph
-not a replacement for the safety proof
-```
+   ```text
+   analysis/lhc_bh_fate.py
+   analysis/lhc_first_capture.py
+   ```
 
-Avoid:
+   They should either implement the Giddings-Mangano Appendix F behavior or
+   print a clear superseded warning.
 
-```text
-Cosmic rays prove the LHC is safe.
-IceCube settles the old neutrino node.
-Modern LHC limits replace the safety proof.
-Heavy-ion total energy can make one huge microscopic BH.
-Capture is impossible.
-```
+2. Iron cosmic-ray composition convention is inconsistent.
 
-Use:
+   Some text/scripts count primary nuclei, while Giddings-Mangano-style
+   arguments count relevant nucleon-nucleon opportunities. Harmonize the
+   convention.
 
-```text
-Earth/Sun survival closes stopped-in-ordinary-matter branches.
-IceCube partially upgrades the astrophysical-neutrino node.
-Modern direct searches constrain prompt visible benchmark branches.
-Heavy-ion BH production is local/partonic unless a separate coherent mechanism
-is specified.
-Capture can happen for light stable BHs; the safety case rests on accretion
-slowness and astrophysical exclusion.
-```
+3. IceCube wording should be cleaned up.
 
-Important correction from Giddings-Mangano Appendix F:
+   Use "TeV-PeV astrophysical flux observed; EeV/cosmogenic flux still
+   upper-limited/model-dependent" rather than "IceCube settles the old neutrino
+   node."
 
-```text
-The earlier project estimate that LHC trapping was about 3 percent was wrong.
-Low-velocity accretion drag and flat rapidity behavior can make trapping much
-larger for light BHs. The safety argument should not rest on capture being
-improbable.
-```
+4. Top-level docs are stale.
 
-## 17. Claim Graph Schema Recommendation
+   `README.md` and `PROJECT_SUMMARY.md` should mention the neutron-star module
+   and later research-gap structure.
 
-Use a machine-readable node schema like:
+5. The main deliverable is still missing.
+
+   Add a machine-readable claim graph.
+
+## 22. Claim Graph Schema
+
+Recommended node fields:
 
 ```text
 id
@@ -919,7 +1277,7 @@ correction_history
 notes
 ```
 
-Example load-bearing nodes:
+Useful nodes:
 
 ```text
 CALC-PP-BH-PRODUCTION-GEOMETRIC
@@ -936,11 +1294,25 @@ UPDATE-ICECUBE-TEV-PEV-FLUX
 UPDATE-LVK-NS-EOS-RATES
 UPDATE-LHC-RUN3-DIRECT-LIMITS
 CORR-LHC-CAPTURE-TAIL
+MODEL-LOVELOCK-HIGHER-CURVATURE
+MODEL-BORN-INFELD-DENSE-MATTER-COUPLING
+MODEL-ASYMPTOTIC-SAFETY-RUNNING-G
+MODEL-NONCOMMUTATIVE-REGULAR-BH
+MODEL-MINIMAL-LENGTH-GUP
+MODEL-BRANE-SPECIES-SEPARATION
+MODEL-HIC-GLOBAL-ANGULAR-MOMENTUM
+MODEL-MAGNETICALLY-CHARGED-BH
+MODEL-HIDDEN-MAGNETIC-CHARGE-REMNANT
+MODEL-HIC-B-ENHANCED-MAGNETIC-BH-PRODUCTION
+MODEL-NS-AS-MAGNETIZED-BH
+MODEL-SLOW-NS-CONSUMPTION
+CALC-SEED-MAGNETIC-CHARGE-DILUTION
+SEARCH-MOEDAL-ATLAS-HIGH-IONIZATION
 ```
 
-## 18. Files/Sources to Download Into `sources/`
+## 23. Files/Sources to Download Into `sources/`
 
-Priority downloads:
+Priority:
 
 1. Giddings-Mangano 2008 PDF:
    https://arxiv.org/pdf/0806.3381
@@ -966,82 +1338,85 @@ Priority downloads:
 8. ATLAS 2026 quantum-BH lepton+jet search PDF:
    https://arxiv.org/pdf/2604.19495
 
-Possible update-source PDFs:
+Magnetic/exotic branch:
 
-- IceCube diffuse astrophysical flux 2024:
-  https://arxiv.org/abs/2402.18026
+9. Lee-Nair-Weinberg magnetic monopole BH PDF:
+   https://arxiv.org/pdf/hep-th/9112008
 
-- Pierre Auger UHECR review after 15 years:
-  https://arxiv.org/abs/2309.01259
+10. Gould-Rajantie HIC monopole Schwinger PDF:
+    https://arxiv.org/pdf/1705.07052
 
-- GWTC-3 compact-binary population:
-  https://arxiv.org/abs/2111.03634
+11. MoEDAL HIC monopole search PDF:
+    https://arxiv.org/pdf/2402.15682
 
-- GWTC-5.0 population properties:
-  https://arxiv.org/abs/2605.27226
+12. Born-Infeld-inspired gravity review PDF:
+    https://arxiv.org/pdf/1704.03351
 
-## 19. Next Implementation Tasks
+13. Asymptotic safety review PDF:
+    https://arxiv.org/pdf/2212.09495
 
-1. Add `analysis/bh_geometry.py`
-   - `omega_sphere(dim)`
-   - `k_D(D)`
-   - `schwarzschild_radius(M, M_D, D)`
-   - regression values from Giddings-Mangano if available.
+14. Noncommutative/regular BH collider papers:
+    https://arxiv.org/pdf/1003.1798
+    https://arxiv.org/pdf/1111.5830
 
-2. Add or update `analysis/pp_production.py`
-   - geometric cross section,
-   - threshold/inelasticity,
-   - toy PDF mode,
-   - optional tabulated PDF hook,
-   - explicit PDF-cliff sensitivity derivatives.
+## 24. Next Implementation Tasks
 
-3. Add `analysis/neutrino_bh_production.py`
-   - fixed-target neutrino-nucleon threshold,
-   - one-PDF convolution,
-   - nuclear target notes,
-   - flux integration hooks.
+Highest priority:
 
-4. Add `notes/06-production-and-pdf-cliff.md`
-   - derive the formulas in Sections 6-7 above,
-   - include clean examples for 13, 13.6, and 14 TeV.
+1. Mark or rewrite superseded LHC capture scripts:
 
-5. Add `notes/07-radiation-and-stopping.md`
-   - Hawking radiation branch,
-   - medium-induced radiation estimate,
-   - why neutral gravity-only medium radiation is subleading,
-   - what changes if the BH remains charged/colored.
+   ```text
+   analysis/lhc_bh_fate.py
+   analysis/lhc_first_capture.py
+   ```
 
-6. Add `notes/08-direct-searches-and-decay-channels.md`
-   - prompt visible searches,
-   - invisible/stable/long-lived loopholes,
-   - relation to astrophysical safety proof.
+2. Harmonize cosmic-ray iron/nucleon counting in:
 
-7. Add a claim graph file:
+   ```text
+   analysis/cosmic_ray_flux.py
+   notes/01-cosmic-ray-argument.md
+   notes/05-comparison-giddings-mangano.md
+   README.md
+   ```
+
+3. Fix IceCube/EeV wording in:
+
+   ```text
+   notes/06-neutron-star-bound.md
+   notes/research-gaps.md
+   ```
+
+4. Update `README.md` and `PROJECT_SUMMARY.md` for layer 6 and research-gap
+   status.
+
+5. Add claim graph:
+
+   ```text
+   notes/claim_graph.yaml
+   ```
+
+Then add focused notes:
 
 ```text
-claims/claim_graph.json
+notes/07-production-and-pdf-cliff.md
+notes/08-radiation-and-stopping.md
+notes/09-direct-searches-and-decay-channels.md
+notes/10-exotic-semiclassical-gravity.md
+notes/11-magnetic-bh-and-heavy-ion-fields.md
 ```
 
-or
+Then add calculations:
 
 ```text
-notes/claim_graph.yaml
+analysis/bh_geometry.py
+analysis/pp_production.py
+analysis/neutrino_bh_production.py
+analysis/hic_magnetic_schwinger.py
 ```
 
-8. Verify Giddings-Mangano Appendix H:
-   - determine whether the bound-solar-orbit decay-into-Sun channel in
-     `notes/04-lhc-first-probability.md` is new or already covered.
+## 25. Bottom Line
 
-9. Run the 2008-to-2026 update pass:
-   - IceCube flux,
-   - Gaia white dwarfs,
-   - LVK neutron-star constraints,
-   - ATLAS/CMS direct BH limits,
-   - UHECR composition/spectrum.
-
-## 20. Bottom Line
-
-The strongest artifact should make this structure navigable:
+The best final artifact should let a reader navigate this structure:
 
 ```text
 1. Production is model-dependent and suffers a high-x PDF cliff near the LHC
@@ -1050,7 +1425,7 @@ The strongest artifact should make this structure navigable:
 2. Direct LHC searches constrain prompt visible benchmark decays, not every
    stable/invisible remnant branch.
 
-3. If Hawking radiation works normally, microscopic BHs evaporate and are not a
+3. If ordinary Hawking radiation works, microscopic BHs evaporate and are not a
    hazard.
 
 4. The pessimistic stable-remnant branch is handled by stopping, accretion, and
@@ -1058,13 +1433,33 @@ The strongest artifact should make this structure navigable:
 
 5. Earth/Sun survival closes stopped-in-ordinary-matter branches.
 
-6. Neutral gravity-only cosmic-ray-produced BHs pass through ordinary matter, so
-   white dwarfs and neutron stars are the load-bearing astrophysical tests.
+6. Neutral gravity-only cosmic-ray-produced BHs pass through ordinary matter,
+   so white dwarfs and neutron stars are the load-bearing astrophysical tests.
 
-7. Fast danger implies astrophysical testability; unexcluded branches are too
-   slow to matter on Solar-System timescales.
+7. If pp works but nu-N fails, cosmic p-N/nucleus-N production remains a
+   fallback comparator, though capture and compact-star access must be treated
+   carefully.
+
+8. Exotic semiclassical models mostly shift threshold, trapped fraction,
+   evaporation/remnants, accretion law, or species overlap. The claim graph
+   should expose which node each model attacks.
+
+9. Magnetic-charge branches are real but split sharply:
+   ordinary magnetic charge is stoppable/searchable; hidden magnetic charge is
+   stealthier but does not automatically couple to visible magnetic fields.
+
+10. Heavy-ion magnetic-field production is a separate loophole class, not
+    covered by pp luminosity equivalence, but it pays magnetic-charge
+    conservation, Schwinger suppression, and high-ionization-search costs.
+
+11. Replacing observed neutron stars with magnetized BHs is not a small patch;
+    it must reproduce surface, crust, ejecta, tidal, and pulsar phenomenology.
+
+12. Fast danger implies astrophysical testability. Branches not excluded by
+    astrophysical tests are normally too slow to matter on Solar-System
+    timescales.
 ```
 
-That is the case study's real value: not the slogan "the LHC is safe", but the
-explicit decomposition of why confidence is warranted, what depends on what,
-and which nodes must be updated as the literature changes.
+That decomposition is the real case-study value: not the slogan that the LHC is
+safe, but the explicit map of why confidence is warranted, what the argument
+depends on, and which nodes must be updated as the literature changes.
