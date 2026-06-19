@@ -66,6 +66,34 @@ AS's plan wants notes/06 = production; we used 06 = NS bound. Settle: NS = 06,
 production/PDF-cliff = 07, radiation = 08, direct-searches = 09. Move working
 memos out of repo root.
 
+### A10. Neutron-star condensates and spectral accretion — MEDIUM/HIGH
+The NS bound uses a post-capture accretion clock. If the seed BH is much smaller
+than the neutron superfluid coherence length, naive gas/Bondi accretion may
+overestimate growth. The correct question is not "superfluid viscosity" but the
+many-body spectral weight available to the horizon sink:
+
+```text
+Gamma_abs ~ int d^3q d omega |M_BH|^2 S_operator(q, omega)
+```
+
+Separate stopping from accretion. Stopping is energy loss to external
+quasiparticles; accretion is flux through an absorbing boundary. For paired
+neutron matter, possible channels include density phonons, pair-breaking
+continua, anomalous pair absorption, stress response, vortices, and fluxtubes.
+
+See:
+
+```text
+notes/superfluid-spectral-accretion.md
+```
+
+Claim nodes:
+
+```text
+MODEL-NS-SUPERFLUID-SPECTRAL-ACCRETION
+MODEL-NS-SUPERFLUID-SPECTRAL-STOPPING
+```
+
 ---
 
 ## Part B — Does pp production transfer to ν-N? (the load-bearing question)

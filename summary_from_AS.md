@@ -734,6 +734,72 @@ matters because for nuclei the relevant nucleon-nucleon energy is set by
 energy per nucleon, not total nuclear energy.
 ```
 
+## 12A. Neutron-Star Condensates and Spectral Accretion
+
+Later AS/Codex discussion added a sharper version of the neutron-star
+microphysics loophole:
+
+```text
+Naive gas/Bondi accretion may overestimate micro-BH growth if the BH is much
+smaller than the coherence length of paired neutron-star matter.
+```
+
+The correct question is not simply whether a superfluid has zero viscosity. It
+is:
+
+```text
+What operator does the BH couple to, and what spectral weight does the medium
+have at the required (q, omega)?
+```
+
+For stopping of a moving BH:
+
+```text
+P_loss ~ int d^3q |V_BH(q)|^2 omega S(q, omega)
+omega = q . v
+```
+
+For accretion, the issue is different: a horizon is an absorbing boundary. A
+bosonic condensate can in principle feed an inward coherent phase flow without
+first producing an ordinary real phonon outside the horizon. But if:
+
+```text
+r_h << xi
+```
+
+where `xi` is a healing or BCS coherence length, the BH is a sub-coherence-scale
+absorber and Bondi hydrodynamics is not automatically valid. A possible
+parameterization is:
+
+```text
+dot M_NS = dot M_naive * S_cond
+S_cond ~ 1                         hydrodynamic condensate limit
+S_cond ~ (r_h/xi)^alpha             coherence-limited absorber
+S_cond ~ exp(-Delta/T)              thermal quasiparticle limited only
+S_cond ~ spectral integral          correct many-body formulation
+```
+
+For old neutron stars, the suppression required is roughly:
+
+```text
+D=11: t_naive ~ 10 Myr  -> need S_cond < 10^-3-10^-2
+D=8:  t_naive ~ 4 kyr   -> need S_cond < 10^-6-10^-5
+D<=7: much stronger suppression required
+```
+
+This branch is now documented in:
+
+```text
+notes/superfluid-spectral-accretion.md
+```
+
+Claim nodes:
+
+```text
+MODEL-NS-SUPERFLUID-SPECTRAL-ACCRETION
+MODEL-NS-SUPERFLUID-SPECTRAL-STOPPING
+```
+
 ## 13. Nonlinear and Exotic Semiclassical Gravity
 
 The project should not treat the ADD geometric model as the only possible
@@ -1306,6 +1372,8 @@ MODEL-HIDDEN-MAGNETIC-CHARGE-REMNANT
 MODEL-HIC-B-ENHANCED-MAGNETIC-BH-PRODUCTION
 MODEL-NS-AS-MAGNETIZED-BH
 MODEL-SLOW-NS-CONSUMPTION
+MODEL-NS-SUPERFLUID-SPECTRAL-ACCRETION
+MODEL-NS-SUPERFLUID-SPECTRAL-STOPPING
 CALC-SEED-MAGNETIC-CHARGE-DILUTION
 SEARCH-MOEDAL-ATLAS-HIGH-IONIZATION
 ```
@@ -1395,6 +1463,12 @@ Highest priority:
    notes/claim_graph.yaml
    ```
 
+6. Add a toy suppression script for neutron-star condensate accretion:
+
+   ```text
+   analysis/superfluid_accretion_suppression.py
+   ```
+
 Then add focused notes:
 
 ```text
@@ -1403,6 +1477,7 @@ notes/08-radiation-and-stopping.md
 notes/09-direct-searches-and-decay-channels.md
 notes/10-exotic-semiclassical-gravity.md
 notes/11-magnetic-bh-and-heavy-ion-fields.md
+notes/superfluid-spectral-accretion.md
 ```
 
 Then add calculations:
@@ -1412,6 +1487,7 @@ analysis/bh_geometry.py
 analysis/pp_production.py
 analysis/neutrino_bh_production.py
 analysis/hic_magnetic_schwinger.py
+analysis/superfluid_accretion_suppression.py
 ```
 
 ## 25. Bottom Line
