@@ -302,16 +302,27 @@ The current conclusion is not that these are likely hazards. It is that they are
 distinct branches:
 
 ```text
-ordinary magnetic charge -> stoppable/searchable/high-ionization
-hidden magnetic charge   -> stealthier, but does not automatically couple to
-                            visible heavy-ion magnetic fields
-HIC B-field production   -> not covered by ordinary pp luminosity equivalence,
-                            but pays Schwinger suppression and charge
-                            conservation costs
+ordinary magnetic charge -> strong stopping/capture; astrophysical survival
+                            bounds are usually stronger, with detector searches
+                            as an additional constraint
+hidden magnetic charge   -> ordinary stopping/capture is not guaranteed, but
+                            visible heavy-ion magnetic fields may also fail to
+                            produce it efficiently
+HIC B-field production   -> not covered by ordinary pp luminosity equivalence;
+                            the live question is whether the production mode is
+                            collider-specific while post-capture accretion
+                            remains dangerous
 ```
 
 This is the intended use of the artifact: turn vague "what about exotic
 physics?" questions into specific nodes with assumptions and failure modes.
+
+The same correction matters for future machines. For FCC-hh, visible charged or
+magnetic stable BHs are not primarily a detector-invisibility loophole. If
+nature also produces them, charge makes them easier to stop in Earth/Sun/WD/NS
+matter. The distinctive FCC branch is instead coherent heavy-ion electromagnetic
+production, where the natural astrophysical analogue may be absent or
+rate-suppressed.
 
 ## 10. Representative Finding: Superfluid Accretion Is A Spectral Question
 

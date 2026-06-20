@@ -1021,16 +1021,20 @@ Gamma_mon ~ exp(-m_mon / T_H)
 Schwinger-like magnetic discharge can also be suppressed for heavy monopoles.
 This creates a plausible stable or long-lived remnant branch.
 
-But ordinary magnetic charge is not stealthy:
+But ordinary magnetic charge is not mainly a detector-search issue. The primary
+safety consequence is stopping:
 
 - it is highly ionizing,
 - it stops strongly in matter,
+- if naturally produced, Earth/Sun/WD/NS survival gives strong capture bounds,
 - it is directly targeted by MoEDAL and ATLAS high-ionization searches,
 - it is not the neutral gravity-only dangerous branch.
 
-Hidden-sector magnetic charge is stealthier, but then it does not generate
-ordinary magnetar-like fields unless there is additional kinetic mixing or a
-coupling to visible electromagnetism.
+Hidden-sector magnetic charge behaves more like the neutral branch for ordinary
+stopping unless it couples to ordinary matter. But if it is decoupled enough to
+avoid ordinary stopping, ordinary visible heavy-ion magnetic fields may also fail
+to produce it efficiently, and it will not generate ordinary magnetar-like
+fields without additional mixing.
 
 Suggested nodes:
 
@@ -1099,13 +1103,15 @@ Direct searches can miss rare or invisible events because:
 N_seen = L * sigma_X * A * epsilon * BR_visible
 ```
 
-But ordinary visible magnetic charge has large ionization and trapping
-signatures, so the relevant search class is MoEDAL/ATLAS high-ionization and
-monopole trapping, not only prompt BH decay.
+But ordinary visible magnetic charge also has large stopping/capture in
+ordinary matter. Thus the first safety question is whether nature produces the
+same object and captures it in Earth/Sun/WD/NS environments. MoEDAL/ATLAS
+high-ionization and monopole trapping searches are additional constraints, not
+the primary closure of the branch.
 
-Hidden magnetic charge can evade those searches, but then the heavy-ion
-visible-B enhancement is also lost unless the hidden magnetic sector couples to
-ordinary EM.
+Hidden magnetic charge can evade ordinary high-ionization searches and stopping,
+but then the heavy-ion visible-B enhancement is also lost unless the hidden
+magnetic sector couples to ordinary EM.
 
 ## 18. Could Magnetized BHs Replace Neutron Stars?
 
@@ -1226,9 +1232,10 @@ However, it pays three prices:
 Important distinction:
 
 ```text
-ordinary magnetic charge -> HIC B fields can help, but searches are strong
-hidden magnetic charge   -> searches weaker, but ordinary HIC B fields may not
-                            couple enough to produce it
+ordinary magnetic charge -> HIC B fields can help production, but charge makes
+                            stopping/capture strong if nature produces it too
+hidden magnetic charge   -> ordinary stopping/searches weaker, but ordinary HIC
+                            B fields may not couple enough to produce it
 ```
 
 Suggested node:
@@ -1254,6 +1261,13 @@ FCC-hh:
 - changes the energy frontier, roughly 85-100 TeV pp class,
 - must be a separate claim-graph branch.
 
+FCC-ee:
+
+- is a precision/high-luminosity lepton machine at roughly 88-365 GeV,
+- is far below TeV-gravity microscopic-BH thresholds in the standard scenario,
+- is not a material stable-BH danger branch unless one assumes already-excluded
+  sub-TeV quantum gravity.
+
 Fixed-target cosmic-ray comparator:
 
 ```text
@@ -1264,6 +1278,7 @@ So:
 
 ```text
 S = 14 TeV  -> E_CR ~ 1e17 eV
+S = 85 TeV  -> E_CR ~ 3.9e18 eV
 S = 100 TeV -> E_CR ~ 5e18 eV
 ```
 
@@ -1281,6 +1296,42 @@ going from 14 TeV to 100 TeV reduces the simple comparator flux by:
 
 Therefore LHC numerical margins should not be copied blindly to FCC. The logic
 may transfer, but the numbers must be recalculated.
+
+For FCC-hh, UHECR composition becomes load-bearing. Heavy nuclei must be treated
+per nucleon:
+
+```text
+E_nucleon = E_nucleus / A
+```
+
+so an iron nucleus must have total energy near or above the observed cutoff to
+match an 85-100 TeV nucleon-nucleon collision.
+
+Correct charged-BH framing for FCC:
+
+```text
+visible charged stable BH:
+  charge strengthens stopping/capture. If cosmic rays or stars naturally produce
+  the same object, Earth/Sun/WD/NS survival gives a stronger bound.
+
+hidden charged stable BH:
+  ordinary stopping/capture is not guaranteed, so it behaves more like the
+  neutral branch. But visible FCC heavy-ion magnetic fields may not produce it
+  efficiently either.
+```
+
+The distinctive FCC-HI branch is:
+
+```text
+coherent heavy-ion electromagnetic fields produce stable charged/magnetic
+BH-like objects
+AND the natural astrophysical analogue is absent or much rarer
+AND charge is not radiated or neutralized
+AND post-capture accretion remains dangerous.
+```
+
+This is a production-equivalence plus accretion question, not a detector
+invisibility question.
 
 ## 21. Current Implementation Problems
 
@@ -1370,6 +1421,11 @@ MODEL-HIC-GLOBAL-ANGULAR-MOMENTUM
 MODEL-MAGNETICALLY-CHARGED-BH
 MODEL-HIDDEN-MAGNETIC-CHARGE-REMNANT
 MODEL-HIC-B-ENHANCED-MAGNETIC-BH-PRODUCTION
+MODEL-FCC-HH-85TEV-RECALCULATE-CR-COMPARATOR
+MODEL-FCC-HH-COMPOSITION-SENSITIVE-UHECR-BOUND
+MODEL-FCC-HI-B-FIELD-MAGNETIC-BH-PRODUCTION
+MODEL-VISIBLE-CHARGED-BH-ASTRO-CAPTURE-BOUND
+MODEL-HIDDEN-CHARGED-BH-NEUTRAL-LIKE-STOPPING
 MODEL-NS-AS-MAGNETIZED-BH
 MODEL-SLOW-NS-CONSUMPTION
 MODEL-NS-SUPERFLUID-SPECTRAL-ACCRETION
@@ -1521,8 +1577,9 @@ The best final artifact should let a reader navigate this structure:
    should expose which node each model attacks.
 
 9. Magnetic-charge branches are real but split sharply:
-   ordinary magnetic charge is stoppable/searchable; hidden magnetic charge is
-   stealthier but does not automatically couple to visible magnetic fields.
+   ordinary visible magnetic charge strengthens stopping/capture and therefore
+   astrophysical bounds if naturally produced; hidden magnetic charge behaves
+   more like the neutral branch but may not couple to visible heavy-ion fields.
 
 10. Heavy-ion magnetic-field production is a separate loophole class, not
     covered by pp luminosity equivalence, but it pays magnetic-charge

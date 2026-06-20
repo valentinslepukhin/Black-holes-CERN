@@ -351,9 +351,12 @@ then magnetic-charge loss through Hawking emission is suppressed.
 But:
 
 ```text
-ordinary magnetic charge -> highly ionizing, stoppable, directly searched for
-hidden magnetic charge   -> stealthier, but does not automatically couple to
-                            ordinary heavy-ion magnetic fields
+ordinary magnetic charge -> highly ionizing and strongly stopped; if naturally
+                            produced, Earth/Sun/WD/NS survival is a strong
+                            constraint, with searches as an extra constraint
+hidden magnetic charge   -> ordinary stopping/capture is not guaranteed, but
+                            ordinary heavy-ion magnetic fields may also fail to
+                            produce it efficiently
 ```
 
 Heavy-ion fields create a distinct production branch:
@@ -364,7 +367,79 @@ Gamma ~ exp[- pi m^2 / (g B)]
 
 This branch is not covered by ordinary pp luminosity equivalence. It requires
 separate assumptions about magnetic charge, coupling to visible EM fields, pair
-production, and direct high-ionization search limits.
+production, post-capture accretion, and direct high-ionization search limits.
+
+## 10A. Future Machines And FCC
+
+FCC-ee is not a relevant microscopic-BH danger path in the standard TeV-gravity
+logic:
+
+```text
+sqrt(s) ~= 88-365 GeV
+```
+
+This is far below TeV-scale BH thresholds unless one assumes already-excluded
+sub-TeV gravity.
+
+FCC-hh is different:
+
+```text
+sqrt(s) ~= 85 TeV baseline, often rounded to 100 TeV in older studies
+```
+
+The fixed-target cosmic-ray equivalent is:
+
+```text
+E_CR ~= S^2 / (2 m_p)
+14 TeV  -> ~1e17 eV
+85 TeV  -> ~3.9e18 eV
+100 TeV -> ~5.3e18 eV
+```
+
+These cosmic-ray energies exist, but the flux is much lower than at the LHC
+equivalent threshold and composition is more important. Heavy nuclei must be
+treated per nucleon:
+
+```text
+E_nucleon = E_nucleus / A
+```
+
+so FCC-hh safety margins must be recomputed rather than copied from LHC.
+
+Corrected charged-BH framing:
+
+```text
+visible charged stable BH:
+  charge enhances stopping/capture in ordinary matter.
+  If naturally produced, astrophysical survival bounds strengthen.
+
+hidden charged stable BH:
+  behaves more like the neutral branch for ordinary stopping.
+  But ordinary visible heavy-ion fields may not produce it efficiently.
+```
+
+The more specific FCC exotic branch is:
+
+```text
+FCC heavy-ion coherent EM fields produce stable visible-charged or magnetic
+BH-like objects,
+AND natural astrophysical analogues are absent or much rarer,
+AND charge is not radiated/neutralized,
+AND post-capture accretion is not suppressed.
+```
+
+That branch is not mainly about detector invisibility. It is a
+production-equivalence question plus a post-capture accretion question.
+
+Suggested nodes:
+
+```text
+MODEL-FCC-HH-85TEV-RECALCULATE-CR-COMPARATOR
+MODEL-FCC-HH-COMPOSITION-SENSITIVE-UHECR-BOUND
+MODEL-FCC-HI-B-FIELD-MAGNETIC-BH-PRODUCTION
+MODEL-VISIBLE-CHARGED-BH-ASTRO-CAPTURE-BOUND
+MODEL-HIDDEN-CHARGED-BH-NEUTRAL-LIKE-STOPPING
+```
 
 ## 11. Draft Claim-Graph Schema
 
@@ -406,6 +481,11 @@ UPDATE-LHC-RUN3-DIRECT-LIMITS
 CORR-LHC-CAPTURE-TAIL
 MODEL-MAGNETICALLY-CHARGED-BH
 MODEL-HIC-B-ENHANCED-MAGNETIC-BH-PRODUCTION
+MODEL-FCC-HH-85TEV-RECALCULATE-CR-COMPARATOR
+MODEL-FCC-HH-COMPOSITION-SENSITIVE-UHECR-BOUND
+MODEL-FCC-HI-B-FIELD-MAGNETIC-BH-PRODUCTION
+MODEL-VISIBLE-CHARGED-BH-ASTRO-CAPTURE-BOUND
+MODEL-HIDDEN-CHARGED-BH-NEUTRAL-LIKE-STOPPING
 MODEL-SLOW-NS-CONSUMPTION
 MODEL-NS-SUPERFLUID-SPECTRAL-ACCRETION
 MODEL-NS-SUPERFLUID-SPECTRAL-STOPPING

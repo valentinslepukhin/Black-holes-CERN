@@ -94,6 +94,47 @@ MODEL-NS-SUPERFLUID-SPECTRAL-ACCRETION
 MODEL-NS-SUPERFLUID-SPECTRAL-STOPPING
 ```
 
+### A11. Future colliders: FCC-hh and charged-BH capture — MEDIUM/HIGH
+FCC-ee is below the TeV-gravity threshold in the standard microscopic-BH
+scenario, but FCC-hh at roughly 85-100 TeV is a separate safety-analysis branch.
+The fixed-target cosmic-ray comparator moves to:
+
+```text
+85 TeV  -> E_CR ~ 3.9e18 eV
+100 TeV -> E_CR ~ 5.3e18 eV
+```
+
+These energies exist, but the flux is much lower and UHECR composition becomes
+load-bearing. For nuclei, compare per-nucleon energy, not total nuclear energy.
+
+Correct charged-BH framing:
+
+```text
+visible electric/magnetic charge -> stronger stopping/capture, so ordinary
+  Earth/Sun/WD/NS survival bounds strengthen if nature produces the same object.
+
+hidden charge -> neutral-like stopping unless it couples to ordinary matter,
+  but then ordinary heavy-ion B fields may not produce it efficiently.
+```
+
+The distinctive FCC-HI branch is not detector-invisible charged objects. It is:
+
+```text
+coherent heavy-ion EM fields create a production mode not reproduced by cosmic
+rays or compact stars, while the produced object remains stable and dangerous
+after capture.
+```
+
+Claim nodes:
+
+```text
+MODEL-FCC-HH-85TEV-RECALCULATE-CR-COMPARATOR
+MODEL-FCC-HH-COMPOSITION-SENSITIVE-UHECR-BOUND
+MODEL-FCC-HI-B-FIELD-MAGNETIC-BH-PRODUCTION
+MODEL-VISIBLE-CHARGED-BH-ASTRO-CAPTURE-BOUND
+MODEL-HIDDEN-CHARGED-BH-NEUTRAL-LIKE-STOPPING
+```
+
 ---
 
 ## Part B — Does pp production transfer to ν-N? (the load-bearing question)
