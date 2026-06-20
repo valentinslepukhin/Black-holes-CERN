@@ -409,6 +409,8 @@ MODEL-HIC-B-ENHANCED-MAGNETIC-BH-PRODUCTION
 MODEL-SLOW-NS-CONSUMPTION
 MODEL-NS-SUPERFLUID-SPECTRAL-ACCRETION
 MODEL-NS-SUPERFLUID-SPECTRAL-STOPPING
+MODEL-CHIRAL-CONDENSATE-PHASE-FRONT
+ASSUMPTION-NS-ACCRETION-UV-VS-SOFT-DOMINATED
 SEARCH-MOEDAL-ATLAS-HIGH-IONIZATION
 ```
 
@@ -466,6 +468,74 @@ Detailed note:
 ```text
 notes/superfluid-spectral-accretion.md
 ```
+
+## 12A. Vacuum Condensates And Chiral Response
+
+A later Valentin/Claude-style note sharpened this branch by separating
+Fermi-surface pairing condensates from vacuum order parameters such as the QCD
+chiral condensate, the Higgs VEV, and possible dark-energy scalar backgrounds.
+The useful correction is:
+
+```text
+Hawking-on:
+  thermal disruption/melting can occur, but the micro-BH evaporates.
+
+Hawking-off:
+  no thermal melting should be assumed. The BH is a nonthermal absorbing sink,
+  and condensate response must be treated through dense-medium QFT response.
+```
+
+For the chiral condensate, a local disturbance of:
+
+```text
+<qbar q>
+```
+
+should propagate through color-singlet QCD channels, not as a macroscopic color
+wave:
+
+```text
+sigma / scalar-isoscalar response
+pions and in-medium pion modes
+sound, particle-hole, and possible phase-front modes
+```
+
+The chiral condensate itself is not an energy density; the relevant QCD
+vacuum/bag contribution is of order:
+
+```text
+B_QCD ~ (150-250 MeV)^4
+```
+
+This is comparable to, but not vastly larger than, neutron-star matter density.
+So it can modify the EOS, sound speed, latent heat, or phase-front energetics,
+but it should not be counted as an extra universal fluid reservoir on top of
+baryonic matter.
+
+The main open fork is:
+
+```text
+A) UV/horizon-dominated absorption:
+   the relevant scale is set by the small absorbing horizon, and chiral
+   coherence gives little protection.
+
+B) soft supply / EOS / phase-response dominated accretion:
+   the relevant scale is set by p_F, c_s, r_B, gaps, and in-medium QCD response.
+   Then chiral/EOS/phase-front physics can change the accretion law.
+```
+
+This should be tracked as an assumption, not silently decided:
+
+```text
+ASSUMPTION-NS-ACCRETION-UV-VS-SOFT-DOMINATED
+MODEL-CHIRAL-CONDENSATE-PHASE-FRONT
+MODEL-NS-BH-CATALYZED-CONVERSION
+```
+
+The current assessment is that vacuum condensates do not provide an obvious
+many-order suppression or enhancement by themselves. Their plausible role is in
+the dense-matter EOS and possible phase-conversion front around the absorbing
+sink.
 
 ## 13. Current Implementation Problems
 
